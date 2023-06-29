@@ -275,23 +275,20 @@ if file is not None:
     elif anl == 'Regresión':
         st.markdown('## Regresión')
         st.markdown('Entendemos que quieres estudiar la variable dependiente $Y$ seleccionada en el preprocesado. Si no es así, modifica esta información en la sección **Preprocesado**, recuerda que para este análisis debes estudiar los datos sin escalar.')
-        if Y == 'No existe':
-            st.write('En la seción de preprocesado, selecciona una variable dependiente $Y$')
-        else:
-            if esc == 'Ninguno':
-                var_reg = st.multiselect(
+        if esc == 'Ninguno':
+            var_reg = st.multiselect(
                     'Selecciona las variables independientes para tu modelo',
                     Xs.columns)
-                if len(var_reg) != 0:
-                    test_reg = st.slider(
+            if len(var_reg) != 0:
+                test_reg = st.slider(
                         '¿Qué porcentaje de los datos quieres que represente el subconjunto de test?',
                         min_value=5, max_value=40, step=1)
-                    lr = LinearRegression()
-                    y_reg = Y
-                    x_reg = Xs[var_reg]
-                    X_train, X_test, y_train, y_test = train_test_split(x_reg, y_reg, random_state=r, test_size=test_reg/100)
+                lr = LinearRegression()
+                y_reg = Y
+                x_reg = Xs[var_reg]
+                X_train, X_test, y_train, y_test = train_test_split(x_reg, y_reg, random_state=r, test_size=test_reg/100)
             
-                    if len(var_reg) == 1:
+                if len(var_reg) == 1:
                         lr.fit(np.array(X_train).reshape(-1, 1), y_train)
                         st.write('**Coeficiente ($β_1$)**')
                         st.write(lr.coef_)
@@ -302,7 +299,7 @@ if file is not None:
                         st.write('$MSE$:', round(mean_squared_error(y_test, y_pred),3))
                         st.write('$MAE$:', round(mean_absolute_error(y_test, y_pred),3))
                         st.write('$R^2$:', round(r2_score(y_test, y_pred),3))
-                    else:
+                else:
                         lr.fit(X_train, y_train)
                         st.write('**Coeficientes ($β_i, i=1,\dots,n$)**')
                         st.write(lr.coef_.reshape(1,-1))
@@ -313,14 +310,11 @@ if file is not None:
                         st.write('$MSE$:', round(mean_squared_error(y_test, y_pred),3))
                         st.write('$MAE$:', round(mean_absolute_error(y_test, y_pred),3))
                         st.write('$R^2$:', round(r2_score(y_test, y_pred),3))
-                else:
-                    st.write('No has seleccionado ninguna variable independiente!')
             else:
-                st.write('En la sección de preprocesado, los datos sin escalar.')
-    else:
-        if Y == 'No existe':
-            st.write('En la seción de preprocesado, selecciona una variable dependiente $Y$')
+                st.write('No has seleccionado ninguna variable independiente!')
         else:
+            st.write('En la sección de preprocesado, los datos sin escalar.')
+    else:
             eval = st.radio(
                 "Selecciona el tipo de evaluación",
                 ('Validación cruzada', 'División train-test'))

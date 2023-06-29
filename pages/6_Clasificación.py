@@ -129,7 +129,7 @@ with st.expander("**:star: Despliega para aplicar los distintos modelos :exclama
         st.write('Sensibilidad (_Recall_): ', round(recall_score(y_test, y_pred), 3))
 
     st.markdown('### Evaluación')
-    st.markdown('Conseguimos muy buenos resultados con prácticamente todas las combinaciones. Esto se debe principalmente a que este _dataset_ estaba pensado originalmente para esta función. Además, podemos observar como en general, los resultados empeoran al aumentar el tamaño del test o el número $k$ de subgrupos en la validación cruzada. En cuanto a los algoritmos, obtenemos resultados muy similares.')
+    st.markdown('Conseguimos muy buenos resultados con prácticamente todas las combinaciones. Esto se debe principalmente a que este _dataset_ estaba pensado originalmente para esta función. Además, podemos observar como en general, los resultados empeoran al aumentar el tamaño del test o reducir el número $k$ de subgrupos en la validación cruzada. En cuanto a los algoritmos, obtenemos resultados muy similares.')
 st.divider()
 st.image('images/usal.png')
 st.caption('Trabajo de Fin de Grado en Estadística')
