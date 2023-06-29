@@ -275,85 +275,91 @@ if file is not None:
     elif anl == 'Regresión':
         st.markdown('## Regresión')
         st.markdown('Entendemos que quieres estudiar la variable dependiente $Y$ seleccionada en el preprocesado. Si no es así, modifica esta información en la sección **Preprocesado**, recuerda que para este análisis debes estudiar los datos sin escalar.')
-        if esc == 'Ninguno':
-            var_reg = st.multiselect(
-                'Selecciona las variables independientes para tu modelo',
-                Xs.columns)
-            if len(var_reg) != 0:
-                test_reg = st.slider(
-                    '¿Qué porcentaje de los datos quieres que represente el subconjunto de test?',
-                    min_value=5, max_value=40, step=1)
-                lr = LinearRegression()
-                y_reg = Y
-                x_reg = Xs[var_reg]
-                X_train, X_test, y_train, y_test = train_test_split(x_reg, y_reg, random_state=r,       test_size=test_reg/100)
+        if Y == 'No existe':
+            st.write('En la seción de preprocesado, selecciona una variable dependiente $Y$')
+        else:
+            if esc == 'Ninguno':
+                var_reg = st.multiselect(
+                    'Selecciona las variables independientes para tu modelo',
+                    Xs.columns)
+                if len(var_reg) != 0:
+                    test_reg = st.slider(
+                        '¿Qué porcentaje de los datos quieres que represente el subconjunto de test?',
+                        min_value=5, max_value=40, step=1)
+                    lr = LinearRegression()
+                    y_reg = Y
+                    x_reg = Xs[var_reg]
+                    X_train, X_test, y_train, y_test = train_test_split(x_reg, y_reg, random_state=r, test_size=test_reg/100)
             
-                if len(var_reg) == 1:
-                    lr.fit(np.array(X_train).reshape(-1, 1), y_train)
-                    st.write('**Coeficiente ($β_1$)**')
-                    st.write(lr.coef_)
-                    st.write('**Intercepto ($β_0$)**')
-                    st.write(round(lr.intercept_,3))
-                    y_pred = lr.predict(np.array(X_test).reshape(-1, 1)) 
-                    st.write('**Métricas**')
-                    st.write('$MSE$:', round(mean_squared_error(y_test, y_pred),3))
-                    st.write('$MAE$:', round(mean_absolute_error(y_test, y_pred),3))
-                    st.write('$R^2$:', round(r2_score(y_test, y_pred),3))
+                    if len(var_reg) == 1:
+                        lr.fit(np.array(X_train).reshape(-1, 1), y_train)
+                        st.write('**Coeficiente ($β_1$)**')
+                        st.write(lr.coef_)
+                        st.write('**Intercepto ($β_0$)**')
+                        st.write(round(lr.intercept_,3))
+                        y_pred = lr.predict(np.array(X_test).reshape(-1, 1)) 
+                        st.write('**Métricas**')
+                        st.write('$MSE$:', round(mean_squared_error(y_test, y_pred),3))
+                        st.write('$MAE$:', round(mean_absolute_error(y_test, y_pred),3))
+                        st.write('$R^2$:', round(r2_score(y_test, y_pred),3))
+                    else:
+                        lr.fit(X_train, y_train)
+                        st.write('**Coeficientes ($β_i, i=1,\dots,n$)**')
+                        st.write(lr.coef_.reshape(1,-1))
+                        st.write('**Intercepto ($β_0$)**')
+                        st.write(lr.intercept_)
+                        y_pred = lr.predict(X_test) 
+                        st.write('**Métricas**')
+                        st.write('$MSE$:', round(mean_squared_error(y_test, y_pred),3))
+                        st.write('$MAE$:', round(mean_absolute_error(y_test, y_pred),3))
+                        st.write('$R^2$:', round(r2_score(y_test, y_pred),3))
                 else:
-                    lr.fit(X_train, y_train)
-                    st.write('**Coeficientes ($β_i, i=1,\dots,n$)**')
-                    st.write(lr.coef_.reshape(1,-1))
-                    st.write('**Intercepto ($β_0$)**')
-                    st.write(lr.intercept_)
-                    y_pred = lr.predict(X_test) 
-                    st.write('**Métricas**')
-                    st.write('$MSE$:', round(mean_squared_error(y_test, y_pred),3))
-                    st.write('$MAE$:', round(mean_absolute_error(y_test, y_pred),3))
-                    st.write('$R^2$:', round(r2_score(y_test, y_pred),3))
+                    st.write('No has seleccionado ninguna variable independiente!')
             else:
-                st.write('No has seleccionado ninguna variable!')
-        else:
-            st.write('En la sección de preprocesado, selecciona los datos sin escalar.')
+                st.write('En la sección de preprocesado, los datos sin escalar.')
     else:
-        eval = st.radio(
-        "Selecciona el tipo de evaluación",
-        ('Validación cruzada', 'División train-test'))
-        if eval == 'Validación cruzada':
-            k_clas = st.slider(
-                '¿Cúantos subconjuntos $k$ quieres?',
-                min_value=2, max_value=10, step=1)
-
-            clas_met = f.cross_validate_metrics(Xs, Y, k_clas)
-            st.write(clas_met)
-            st.write('**Gráficamente**')
-            met1 = st.selectbox('Selecciona la métrica:',
-                            ('Accuracy','F1','Recall','Precision','Balanced_Accuracy'))
-            fig_clas = plt.figure(figsize=(10, 5))
-            sns.barplot(x= clas_met.index , y= clas_met[met1])
-            st.pyplot(fig_clas)
+        if Y == 'No existe':
+            st.write('En la seción de preprocesado, selecciona una variable dependiente $Y$')
         else:
-            test_clas = st.slider(
-                '¿Qué porcentaje de los datos quieres que represente el subconjunto de test? ',
-                min_value=5, max_value=40, step=1)
-            X_train, X_test, y_train, y_test = train_test_split(Xs, Y, random_state = r, test_size=test_clas/100)
-            algorr = st.selectbox('Elige el modelo que deseas evaluar',
+            eval = st.radio(
+                "Selecciona el tipo de evaluación",
+                ('Validación cruzada', 'División train-test'))
+            if eval == 'Validación cruzada':
+                k_clas = st.slider(
+                    '¿Cúantos subconjuntos $k$ quieres?',
+                    min_value=2, max_value=10, step=1)
+
+                clas_met = f.cross_validate_metrics(Xs, Y, k_clas)
+                st.write(clas_met)
+                st.write('**Gráficamente**')
+                met1 = st.selectbox('Selecciona la métrica:',
+                            ('Accuracy','F1','Recall','Precision','Balanced_Accuracy'))
+                fig_clas = plt.figure(figsize=(10, 5))
+                sns.barplot(x= clas_met.index , y= clas_met[met1])
+                st.pyplot(fig_clas)
+            else:
+                test_clas = st.slider(
+                    '¿Qué porcentaje de los datos quieres que represente el subconjunto de test? ',
+                    min_value=5, max_value=40, step=1)
+                X_train, X_test, y_train, y_test = train_test_split(Xs, Y, random_state = r, test_size=test_clas/100)
+                algorr = st.selectbox('Elige el modelo que deseas evaluar',
                         ('Regresión Logística', 'SVM con kernel Lineal', 'SVM con kernel Polinómico','SVM con kernel RBF', 'SVM con kernel Sigmoide'))
         
-            y_pred = f.clas_pred_mod(X_train, y_train, X_test, algorr)
-            st.write('**Matriz de Confusión**')
-            if len(Y.value_counts()) == 2:
-                st.pyplot(f.matriz_confusion(y_test, y_pred))
-            elif len(Y.value_counts()) > 2:
-                m_con = plt.figure(figsize=())
-                sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='', cmap='Blues')
-                st.pyplot(m_con)
-            st.write('**Métricas**')
-            st.write('Exactitud (_Accuracy_): ', round(accuracy_score(y_test, y_pred), 3))
-            st.write('Exactitud Balanceada (_Balanced Accuracy_): ', 
+                y_pred = f.clas_pred_mod(X_train, y_train, X_test, algorr)
+                st.write('**Matriz de Confusión**')
+                if len(Y.value_counts()) == 2:
+                    st.pyplot(f.matriz_confusion(y_test, y_pred))
+                elif len(Y.value_counts()) > 2:
+                    m_con = plt.figure(figsize=())
+                    sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='', cmap='Blues')
+                    st.pyplot(m_con)
+                st.write('**Métricas**')
+                st.write('Exactitud (_Accuracy_): ', round(accuracy_score(y_test, y_pred), 3))
+                st.write('Exactitud Balanceada (_Balanced Accuracy_): ', 
                      round(balanced_accuracy_score(y_test, y_pred), 3))
-            st.write('F1-Score: ', round(f1_score(y_test, y_pred), 3))
-            st.write('Precisión (_Precision_): ', round(precision_score(y_test, y_pred), 3))
-            st.write('Sensibilidad (_Recall_): ', round(recall_score(y_test, y_pred), 3))
+                st.write('F1-Score: ', round(f1_score(y_test, y_pred), 3))
+                st.write('Precisión (_Precision_): ', round(precision_score(y_test, y_pred), 3))
+                st.write('Sensibilidad (_Recall_): ', round(recall_score(y_test, y_pred), 3))
 
 
 
