@@ -7,11 +7,12 @@ st.image('./images/1_Inicio/ML.jpg')
 st.markdown('En 1959, Artur Samuel definió el **Aprendizaje Automático** o **_Machine Learning_** cómo el área de estudio que confiere a los ordenadores la capacidad de aprender una tarea específica sin ser explícitamente programados para ella. En esta web pondremos en práctica los distintos algoritmos estudiados en la memoria, agrupados en dos grandes categorías:')
 st.markdown(' - **Aprendizaje Supervisado**: algoritmos que funcionan y se entrenan con conjuntos de datos etiquetados, es decir, conjuntos de observaciones en las que se conoce la salida esperada y cuyo objetivo es predecir esta variable salida para nuevos conjuntos de datos. Dependiendo de si la variable etiqueta es categórica o numérica trabajaremos con algoritmos de clasificación o regresión respectivamente.')
 st.markdown(' - **Aprendizaje No Supervisado**: son algoritmos que trabajan con conjuntos de datos no etiquetados (no existe una variable salida) y cuya misión es encontrar estructuras y patrones ocultos en dichos datos. Dentro de este tipo de algoritmos encontramos el PCA y el _clustering_.')
-st.download_button(
-    label="Descarga la memoria en formato pdf",
-    data='./data/TFG_JuanMarcosDiaz_signed.pdf',
-    file_name='TFG_JuanMarcosDiaz_signed.pdf',
-)
+with open('./data/TFG_JuanMarcosDiaz_signed.pdf', "rb") as file:
+    btn = st.download_button(
+            label="Descarga la memoria en formato pdf",
+            data=file,
+            file_name="TFG_JuanMarcosDiaz_signed.pdf",
+    )
 st.divider()
 st.markdown('## Cuestionario para decidir el tipo de análisis')
 st.markdown('Para determinar qué tipo de algoritmo de los estudiados en la memoria debemos utilizar, en función del tipo de datos y nuestro objetivo, podemos utilizar el siguiente cuestionario:')
