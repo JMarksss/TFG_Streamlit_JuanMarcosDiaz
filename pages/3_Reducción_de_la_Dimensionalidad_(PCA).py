@@ -10,7 +10,7 @@ st.markdown('La idea principal de este algoritmo es buscar la dirección en la q
 st.image('images/4_PCA/pca.jpg')
 st.markdown('Es tarea del investigador decidir con cuantas componentes se queda, existiendo varios métodos que le guiarán a la hora de tomar esta decisión evaluando cuanta información se pierde.')
 st.markdown(' - **Criterio de varianza explicado**: se establece un umbral mínimo de varianza explicada (en torno al 70% o el 80%) y se seleccionan suficientes componentes principales para alcanzar ese umbral, teniendo en cuenta que las primeras componentes explican la mayor proporción de la varianza.')
-st.markdown(' - **Criterio del codo**: se representa gráficamente el porcentaje de varianza explicada (eje Y) por cada componente principal ordenada (eje X). El número de componentes a elegir nos lo indicará el punto de inflexión (o "codo") de la gráfica, indicando que seleccionar más gráficas no supondría un aumento considerable de la varianza explicada. Este gráfico se denomina _Scree Plot_.')
+st.markdown(' - **Criterio del codo**: se representa gráficamente el porcentaje de varianza explicada (eje Y) por cada componente principal ordenada (eje X). El número de componentes a elegir nos lo indicará el punto de cambio de pendiente (o "codo") de la gráfica, indicando que seleccionar más gráficas no supondría un aumento considerable de la varianza explicada. Este gráfico se denomina _Scree Plot_.')
 st.divider()
 st.markdown('## PCA Interactivo')
 var = st.slider('Selecciona el porcentaje de varianza mínimo explicado', 0, 100, 1)

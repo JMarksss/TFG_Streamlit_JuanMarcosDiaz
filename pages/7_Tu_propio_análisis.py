@@ -314,7 +314,8 @@ if file is not None:
                 st.write('No has seleccionado ninguna variable independiente!')
         else:
             st.write('En la sección de preprocesado, los datos sin escalar.')
-    else:
+    else:   
+            st.markdown('Entendemos que quieres estudiar la variable dependiente $Y$ seleccionada en el preprocesado. Si no es así, modifica esta información en la sección **Preprocesado**.')
             eval = st.radio(
                 "Selecciona el tipo de evaluación",
                 ('Validación cruzada', 'División train-test'))
