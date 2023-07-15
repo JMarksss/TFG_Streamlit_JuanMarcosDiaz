@@ -315,6 +315,7 @@ if file is not None:
         else:
             st.write('En la sección de preprocesado, los datos sin escalar.')
     else:   
+            st.markdown('## Clasificación')
             st.markdown('Entendemos que quieres estudiar la variable dependiente $Y$ seleccionada en el preprocesado. Si no es así, modifica esta información en la sección **Preprocesado**.')
             eval = st.radio(
                 "Selecciona el tipo de evaluación",
